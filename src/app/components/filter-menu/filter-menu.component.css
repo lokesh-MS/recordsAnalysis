@@ -1,0 +1,80 @@
+.dropdowns-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .dropdown-column {
+    flex: 1 1 30%;
+    margin-bottom: 20px;
+  }
+  
+  .ng-dropdown-panel {
+    max-height: 200px !important;
+  }
+  
+  .btn {
+    border-radius: 10px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .dropdown-column {
+      flex: 1 1 100%;
+    }
+  }
+
+  .multiselect-dropdown .dropdown-btn .selected-item-container .selected-item {
+    border: 1px solid #337ab7;
+    margin-right: 4px;
+    background: #337ab7;
+    padding: 0 5px;
+    color: #fff;
+    border-radius: 2px;
+    float: left;
+    max-width: 100% !important; /* Changed from 100px to 100% and added !important */
+}
+
+  /* Set 100% width for the selected records count container */
+.container.text-center {
+  width: 100%;
+}
+
+/* Set 100% width for the dropdowns container */
+.dropdowns-container {
+  width: 100%;
+}
+
+/* Set 100% width for each dropdown column */
+.container .dropdown-column {
+  width: calc(33.33% - 10px); /* Adjust the width as needed */
+  margin-right: 10px; /* Add spacing between dropdowns */
+}
+
+/* Set 100% width for the export button container */
+.row.justify-content-center {
+  width: 100%;
+}
+
+/* Set width for the export button */
+.btn-success {
+  width: 100%;
+}
+.btn-danger{
+  color: #fffefe;
+  /* width: 50%; */
+  padding: 7px;
+  font-size: 19px;
+  font-weight: 600;
+  cursor: pointer;
+  right: 69px;
+  position: absolute;
+  border-radius: 10px;
+  bottom: 0;
+  
+}

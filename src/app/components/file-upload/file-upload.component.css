@@ -1,0 +1,167 @@
+/* Apply general styles */
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  
+  /* Style upload animation */
+  .upload-animation {
+    text-align: center;
+    margin-bottom: 20px; /* Adjust margin as needed */
+  }
+  
+  /* Style upload text */
+  .upload-text {
+    margin-top: 10px; /* Adjust margin as needed */
+  }
+  
+  /* Style button */
+  .btn {
+    margin-right: 10px;
+  }
+  
+  /* Adjust checkbox and input layout */
+  .check {
+    display: inline-block;
+    margin-right: 10px; /* Adjust margin as needed */
+  }
+  
+  /* Adjust input width */
+  input[type="text"] {
+    width: 100%; /* Adjust width as needed */
+  }
+  
+  /* Adjust form group layout */
+  .formGroup {
+    margin-bottom: 20px; /* Adjust margin as needed */
+  }
+  
+  /* Adjust buttons layout */
+  .button-group {
+    margin-top: 20px; /* Adjust margin as needed */
+  }
+  
+  /* Style responsive text center */
+  .text-center {
+    text-align: center;
+  }
+  
+  /* Style responsive margins */
+  .mt-4 {
+    margin-top: 1.5rem !important; /* Adjust margin as needed */
+  }
+  
+  /* Adjust column width on medium screens */
+  @media (min-width: 768px) {
+    .col-md-3,
+    .col-md-9 {
+      float: none;
+      width: auto;
+    }
+  }
+  
+  /* Adjust form group layout on medium screens */
+  @media (min-width: 768px) {
+    .formGroup {
+      display: inline-block;
+      width: 48%; /* Adjust width as needed */
+      margin-right: 2%; /* Adjust margin as needed */
+    }
+  }
+  
+  /* Adjust buttons layout on medium screens */
+  @media (min-width: 768px) {
+    .button-group {
+      text-align: right;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+    
+    .row {
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+    
+    .col-md-3, .col-md-9, .col-md-6, .col-md-12 {
+      position: relative;
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+  }
+  
+  /* Add more media queries for smaller devices if needed */
+  label{
+    margin-left: 10px;
+  }
+  
+  .loading-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; /* Ensure it's above other content */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Optional: Add shadow for better visual */
+  }
+  
+  .upload-animation {
+    text-align: center;
+  }
+  
+  /* Styles for fixed header and scrollable body */
+  .table-fixed-header {
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  /* Fix the header */
+  .table-fixed-header thead {
+    display: block;
+  }
+  
+  /* Make the header cells fixed */
+  .table-fixed-header th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa; /* Adjust as needed */
+    padding: 10px; /* Adjust as needed */
+    text-align: left; /* Adjust as needed */
+    border-bottom: 1px solid #dee2e6; /* Adjust as needed */
+  }
+  
+  /* Make the body scrollable */
+  .table-fixed-header tbody {
+    display: block;
+    overflow-y: auto;
+    height: 300px; /* Set your desired height */
+  }
+  
+  /* Hide the scrollbar in the table body */
+  .table-fixed-header tbody::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Set styles for table cells */
+  .table-fixed-header td {
+    padding: 10px; /* Adjust as needed */
+    border-bottom: 1px solid #dee2e6; /* Adjust as needed */
+  }
+  
+  /* Hover effect on rows */
+  .table-fixed-header tbody tr:hover {
+    background-color: #f2f2f2; /* Adjust as needed */
+  }
+  

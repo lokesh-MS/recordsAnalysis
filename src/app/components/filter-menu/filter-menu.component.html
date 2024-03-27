@@ -1,0 +1,75 @@
+
+<div style="position: relative;width: 94%;">
+
+  <button class="btn btn-danger  btn-block" (click)="refresh()">Refresh</button>
+
+</div>
+    <!-- Selected records count -->
+    <div class="container mt-4" style="    text-align: center;display: block;
+    color: green;
+    font-size: 18px;">
+      <p *ngIf="isrecordsCount"> Your Selected Records count is <span> {{recordsCount}}</span></p>
+    </div>
+    <div class="dropdowns-container">
+ 
+    <div class="container">
+      <div class="dropdown-column">
+        <label for="suplier">Suplier List</label>
+        <!-- First dropdown -->
+        <!-- (input)="onSearchChange($event, 'supplierName')" -->
+
+        <ng-multiselect-dropdown
+          [placeholder]="'Supplier List'"
+          [settings]="dropdownSettings"
+          [data]="dropdownList.Suplier_Name "
+          (onDeSelect)="onSuplierDeselect($event)"
+          (onSelect)="onSuplierSelect($event)"
+          (onSelectAll)="onSuplierSelectAll($event)"
+          (scrollToEnd)="onScrollToEnd()"
+          >
+        </ng-multiselect-dropdown>
+      </div>
+      <div class="dropdown-column">
+        <label for="importer">Importer List</label>
+        <!-- Second dropdown -->
+        <!-- (input)="onSearchChange($event, 'importerName')" -->
+
+        <ng-multiselect-dropdown
+          [placeholder]="'Importer List'"
+          [settings]="dropdownSettings"
+          [data]="dropdownList.Importer_Name"
+          (onDeSelect)="onImporterDeselect($event)"
+          (onSelect)="onImporterSelect($event)"
+          (onSelectAll)="onImporterSelectAll($event)"
+          (scrollToEnd)="onScrollToEnd()"
+          >
+        </ng-multiselect-dropdown>
+      </div>
+      <div class="dropdown-column">
+        <label for="item">Item List</label>
+        <!-- Third dropdown -->
+         <!-- (input)="onSearchChange($event, 'itemDescription')" -->
+        <ng-multiselect-dropdown
+          [placeholder]="'Item Description'"
+          [settings]="dropdownSettings"
+          [data]="dropdownList.Item_Description "
+          (onDeSelect)="onItemDeselect($event)"
+          (onSelect)="onItemSelect($event)"
+          (onSelectAll)="onItemSelectAll($event)"
+          (onDeSelectAll)="onItemDeSelectAll($event)"
+          (scrollToEnd)="onScrollToEnd()"
+        
+          
+          >
+        </ng-multiselect-dropdown>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="row" style="width: 100%; display: flex; justify-content: center; margin-top: 20px;">
+    <div style="width: 30%;" >
+      <button class="btn btn-success btn-lg btn-block" (click)="exportToExcel()">Export</button>
+    </div>
+
+  </div>
+  

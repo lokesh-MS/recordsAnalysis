@@ -1,0 +1,73 @@
+<div class="container">
+    <div class="loading-container" *ngIf="uploading || fetching || loading || ExportingExcel">
+  
+    </div>
+  
+    <div class="row" style="margin-top: 2%">
+  
+      <div class="col-md-3"></div>
+      <div class="col-md-9">
+  
+     
+      </div>
+    </div>
+  
+    
+
+  </div>
+  
+  
+  
+  
+
+  
+
+  
+  <!-- Include necessary scripts at the end of body if required -->
+  
+  
+  
+  <div class="container">
+    <div class="loading-container" *ngIf="uploading || fetching || loading || ExportingExcel">
+      <!-- Loading animation content -->
+  
+      <div class="upload-animation">
+        <i class="fa fa-spinner fa-spin fa-3x"
+          [ngStyle]="{'color': uploading || fetching ? 'rgb(255, 141, 12)' : 'rgb(12, 255, 32)'}"></i>
+  
+        <p class="upload-text" [ngStyle]="{'color': loading ? 'greenyellow' : 'rgb(255, 155, 5)'}">
+          {{ uploading ? 'Uploading...' : (fetching ? 'Fetching...' : (loading ? 'Loading...' : 'Exporting...')) }}
+        </p>
+        <img *ngIf="ExportingExcel" src="/assets/images/export.GIF.gif" style="width: 100px; height: 100px"
+          alt="exportImage" />
+      </div>
+    </div>
+  
+    <div class="row" style="margin-top: 2%">
+      <div class="col-md-3"></div>
+      <div class="col-md-9">
+        <!-- File upload section -->
+  
+        <label for="file-upload" class="custom-file-upload">
+          <i class="fa fa-cloud-upload"></i> Choose File
+          <p id="file-name" *ngIf="fileNameinitalStae">{{ fileName }}</p>
+        </label>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="btn btn-success" [style.background-color]="buttonbgColor" [style.color]="buttonColor"
+          (click)="onUpload()">
+          Upload</button>
+        <input id="file-upload" type="file" style="display: none" (change)="onFileSelected($event)" />
+  
+        <div *ngIf="uploadSuccess" style="position: absolute; top: 42px; right: 28px;">
+          {{ uploadMessage }}
+          <i *ngIf="uploadSuccess" class="fa fa-check-circle" aria-hidden="true"
+            style="color: green; font-size: 20px"></i>
+        </div>
+      </div>
+    </div>
+  
+   
+  
+    <!-- Selected records count -->
+    <div class="container text-center mt-4">
+      <p *ngIf="isrecordsCount"> Your Selected Records count is <span> {{recordsCount}}</span></p>
+    </div>
