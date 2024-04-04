@@ -62,19 +62,37 @@
 }
 
 /* Set width for the export button */
-.btn-success {
+.btn-primary {
   width: 100%;
 }
 .btn-danger{
   color: #fffefe;
-  /* width: 50%; */
-  padding: 7px;
-  font-size: 19px;
+  padding: 5px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  right: 69px;
+  right: 66px;
   position: absolute;
-  border-radius: 10px;
-  bottom: 0;
+  border-radius: 5px;
+  bottom: 63px;
   
+}
+
+.loading-container {
+  position: fixed;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* z-index: 9999 !important; 
+  background-color: rgba(255, 255, 255, 0.8); 
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);  */
+}
+label{
+  font-size: 19px;
+  font-weight: 400;
+  text-align: center;
+  color: #4d3a4e;
+  font-family: auto;
+  text-shadow: 0 0 black;
 }

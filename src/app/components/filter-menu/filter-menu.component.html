@@ -1,7 +1,25 @@
 
-<div style="position: relative;width: 94%;">
 
-  <button class="btn btn-danger  btn-block" (click)="refresh()">Refresh</button>
+<div class="loading-container" *ngIf=" loading ">
+  <!-- Loading animation content -->
+
+  <div class="upload-animation" style="text-align: center;">
+    <i class="fa fa-spinner fa-spin fa-3x"
+      [ngStyle]="{'color': uploading || fetching ? 'rgb(12, 255, 32)' : '   rgb(255, 141, 12)'}"></i>
+
+    <p class="upload-text" [ngStyle]="{'color': loading ? 'rgb(255, 155, 5) ' : ' greenyellow'}">
+      {{ uploading ? 'Uploading...' : (fetching ? 'Fetching...' : (loading ? 'Loading...' : 'Exporting...')) }}
+    </p>
+  
+
+  </div>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+
+<div style="position: relative;width: 94%;    margin-top: 70px;">
+
+  <button class="btn btn-danger  btn-block" (click)="refresh()">Clear selected data</button>
 
 </div>
     <!-- Selected records count -->
@@ -13,44 +31,48 @@
     <div class="dropdowns-container">
  
     <div class="container">
-      <div class="dropdown-column">
+      <div class="dropdown-column text-center">
         <label for="suplier">Suplier List</label>
         <!-- First dropdown -->
         <!-- (input)="onSearchChange($event, 'supplierName')" -->
 
         <ng-multiselect-dropdown
-          [placeholder]="'Supplier List'"
+          [placeholder]="' Select Suplier '"
           [settings]="dropdownSettings"
           [data]="dropdownList.Suplier_Name "
           (onDeSelect)="onSuplierDeselect($event)"
           (onSelect)="onSuplierSelect($event)"
           (onSelectAll)="onSuplierSelectAll($event)"
+          (onDeSelectAll)="onSuplierDeslectAll($event)"
           (scrollToEnd)="onScrollToEnd()"
+          (input)="onSearchChange($event, 'supplierName')"
           >
         </ng-multiselect-dropdown>
       </div>
-      <div class="dropdown-column">
+      <div class="dropdown-column text-center">
         <label for="importer">Importer List</label>
         <!-- Second dropdown -->
         <!-- (input)="onSearchChange($event, 'importerName')" -->
 
         <ng-multiselect-dropdown
-          [placeholder]="'Importer List'"
+          [placeholder]="'Select Importer '"
           [settings]="dropdownSettings"
           [data]="dropdownList.Importer_Name"
           (onDeSelect)="onImporterDeselect($event)"
           (onSelect)="onImporterSelect($event)"
           (onSelectAll)="onImporterSelectAll($event)"
+          (onDeSelectAll)="onImporterDeselectAll($event)"
           (scrollToEnd)="onScrollToEnd()"
+          (input)="onSearchChange($event, 'importerName')"
           >
         </ng-multiselect-dropdown>
       </div>
-      <div class="dropdown-column">
+      <div class="dropdown-column text-center">
         <label for="item">Item List</label>
         <!-- Third dropdown -->
          <!-- (input)="onSearchChange($event, 'itemDescription')" -->
         <ng-multiselect-dropdown
-          [placeholder]="'Item Description'"
+          [placeholder]="'Select Item Description'"
           [settings]="dropdownSettings"
           [data]="dropdownList.Item_Description "
           (onDeSelect)="onItemDeselect($event)"
@@ -58,7 +80,7 @@
           (onSelectAll)="onItemSelectAll($event)"
           (onDeSelectAll)="onItemDeSelectAll($event)"
           (scrollToEnd)="onScrollToEnd()"
-        
+          (input)="onSearchChange($event, 'itemDescription')"
           
           >
         </ng-multiselect-dropdown>
@@ -66,9 +88,9 @@
     </div>
   </div>
  
-  <div class="row" style="width: 100%; display: flex; justify-content: center; margin-top: 20px;">
+  <div class="row" style="width: 100%; display: flex; justify-content: center; margin-top: 20%;">
     <div style="width: 30%;" >
-      <button class="btn btn-success btn-lg btn-block" (click)="exportToExcel()">Export</button>
+      <button class="btn btn-primary btn-lg btn-block" style="background-color: #002142 !important;" (click)="exportToExcel()">Export</button>
     </div>
 
   </div>

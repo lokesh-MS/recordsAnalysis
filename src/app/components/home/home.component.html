@@ -1,3 +1,38 @@
-<app-file-upload></app-file-upload>
+<div style="background-color: aqua;width: 100%; display: inline-block;">
+    <div class="time" style="position: relative;">
+        <p style="position: absolute;
+        right: 3%;
+        top: 18px;
+        FONT-SIZE: 13PX;
+        COLOR: GRAY;
+        FONT-FAMILY: auto;">{{Date}}</p>
+    </div>
+    <div style="position: relative;">
+        <p style="position: absolute;    right: 3%;"> {{ currentTime }}</p>
+    
+    
+    </div>
+
+    
+
+  
+</div>
+<!-- <div style="text-align: center;" >
+    <select name="" id="" (selectionChange)="selectYear($event)" style="    width: 10%;">
+        <option value="" *ngFor="let year of years" [value]="year">{{year }}</option>
+     </select>
+</div> -->
+<div >
+    <app-file-upload></app-file-upload>
 
 <app-filter-menu></app-filter-menu>
+</div>
+
+
+<div class="footer" style="    position: absolute;
+bottom: 15px;
+right: 3%;
+font-family: auto;">
+    <span style="color: gray;">Version 1.01</span>
+
+</div>

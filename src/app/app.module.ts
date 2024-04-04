@@ -11,6 +11,9 @@ import { HomeComponent } from './components/home/home.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { FilterMenuComponent } from './components/filter-menu/filter-menu.component';
 import { TruncatePipe } from './service/truncate.pipe';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select'
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +28,7 @@ import { TruncatePipe } from './service/truncate.pipe';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule,NgMultiSelectDropDownModule.forRoot(), 
+    BrowserAnimationsModule,NgMultiSelectDropDownModule.forRoot(), MatProgressBarModule,MatFormFieldModule,MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

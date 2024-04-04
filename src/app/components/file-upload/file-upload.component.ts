@@ -27,7 +27,7 @@ fetching: boolean = false;
 buttonbgColor: string = '';
 buttonColor: string = '';
 ngOnInit(): void {
-  
+
 }
 onFileSelected(event: any) {
   this.uploadSuccess = false;
@@ -52,13 +52,16 @@ onUpload() {
   this.service.uploadFile(this.selectedFile).subscribe({
     next: (res:any) => {
       this.uploadSuccess = true;
-      this.uploadMessage = res.message;
       this.uploading = false;
       this.uploadingSuccess = true;
+      this.fileNameinitalStae = false;
+      this.uploadMessage = res.message;
+      
+    
       this.fileName = '';
       this.buttonbgColor = '#fd6436';
       this.buttonColor = 'black';
-      this.fileNameinitalStae = false;
+    
     },
     error: (err:any) => {
       console.log(err.message);
@@ -111,5 +114,7 @@ Export() {
 
   }
 }
+
+
 
 }

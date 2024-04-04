@@ -1,35 +1,13 @@
-<div class="container">
-    <div class="loading-container" *ngIf="uploading || fetching || loading || ExportingExcel">
-  
-    </div>
-  
-    <div class="row" style="margin-top: 2%">
-  
-      <div class="col-md-3"></div>
-      <div class="col-md-9">
-  
-     
-      </div>
-    </div>
-  
-    
 
-  </div>
-  
-  
-  
-  
 
-  
-
-  
+ 
   <!-- Include necessary scripts at the end of body if required -->
   
   
   
   <div class="container">
     <div class="loading-container" *ngIf="uploading || fetching || loading || ExportingExcel">
-      <!-- Loading animation content -->
+
   
       <div class="upload-animation">
         <i class="fa fa-spinner fa-spin fa-3x"
@@ -46,7 +24,7 @@
     <div class="row" style="margin-top: 2%">
       <div class="col-md-3"></div>
       <div class="col-md-9">
-        <!-- File upload section -->
+  
   
         <label for="file-upload" class="custom-file-upload">
           <i class="fa fa-cloud-upload"></i> Choose File
@@ -57,7 +35,7 @@
           Upload</button>
         <input id="file-upload" type="file" style="display: none" (change)="onFileSelected($event)" />
   
-        <div *ngIf="uploadSuccess" style="position: absolute; top: 42px; right: 28px;">
+        <div *ngIf="uploadSuccess" style="position: absolute; top: 42px; left: 46%;">
           {{ uploadMessage }}
           <i *ngIf="uploadSuccess" class="fa fa-check-circle" aria-hidden="true"
             style="color: green; font-size: 20px"></i>
@@ -67,7 +45,7 @@
   
    
   
-    <!-- Selected records count -->
+ 
     <div class="container text-center mt-4">
       <p *ngIf="isrecordsCount"> Your Selected Records count is <span> {{recordsCount}}</span></p>
     </div>
