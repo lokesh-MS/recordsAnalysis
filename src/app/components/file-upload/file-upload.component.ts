@@ -27,7 +27,31 @@ fetching: boolean = false;
 buttonbgColor: string = '';
 buttonColor: string = '';
 ngOnInit(): void {
+  // this.initializeYears();
+  this.getAllDBCollection();
+}
+allDbCollaectionValue:any=[];
+filterDbArrayValues:any=[];
+getAllDBCollection(){
+  this.service.getAllDBCollection().subscribe({
+    next:(res:any)=>{
 
+      console.log(res);
+   this.allDbCollaectionValue =  res;
+      if(this.allDbCollaectionValue.length>0){
+        this.allDbCollaectionValue.forEach((element:any) => {
+          let dbName=element.dataBaseName.toString();
+          if(dbName.startsWith("20")){
+        
+            this.filterDbArrayValues.push(element);
+            this.years.push(dbName);
+          }
+        });
+      }
+      console.log(this.filterDbArrayValues);
+   
+    }
+  })
 }
 onFileSelected(event: any) {
   this.uploadSuccess = false;
@@ -49,7 +73,13 @@ onUpload() {
     alert('Please select a file!');
     return;
   }
-  this.service.uploadFile(this.selectedFile).subscribe({
+  if(this.selectedSection ==''){
+    this.uploading = false;
+    this.uploadingSuccess = false;
+alert('Please select Section');
+return
+  }
+  this.service.uploadFile(this.selectedFile,this.selectedYear,this.selectedSection).subscribe({
     next: (res:any) => {
       this.uploadSuccess = true;
       this.uploading = false;
@@ -115,6 +145,35 @@ Export() {
   }
 }
 
+years: number[] = [];
+initializeYears() {
+  // const currentYear = new Date().getFullYear();
+  // for (let year = currentYear - 10; year <= currentYear + 10; year++) {
+  //   this.years.push(year);
+  // }
+}
+selectedYear:string=''
+selectYear(event: any) {
 
-
+  this.selectedYear = event.target.value;
+if(this.selectedYear!=""){
+  this.showSections()
+}
+ 
+}
+ArrayOfSections:any=[];
+showSections(){
+  this.ArrayOfSections=[];
+  this.filterDbArrayValues.filter((ele:any)=>{
+    if(this.selectedYear==ele.dataBaseName){
+      this.ArrayOfSections.push(ele.collections);
+    }
+    console.log(this.ArrayOfSections);
+    
+  })
+}
+selectedSection:string=''
+selectSection(event:any){
+  this.selectedSection=event.target.value;
+}
 }

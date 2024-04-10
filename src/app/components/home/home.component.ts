@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,7 @@ import { Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 export class HomeComponent implements OnInit{
   currentTime:string='';
   Date:any;
-  constructor(private el:ElementRef,private render:Renderer2){
+  constructor(private el:ElementRef,private render:Renderer2, private router:Router){
 
     
   }
@@ -48,5 +49,7 @@ initializeYears() {
 selectYear(year: any) {
   // this.yearSelected.emit(year);
 }
-
+openFileUplaod(){
+this.router.navigateByUrl("fileUpload");
+}
 }

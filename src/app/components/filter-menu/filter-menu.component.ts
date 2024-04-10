@@ -27,39 +27,30 @@ export class FilterMenuComponent {
   recordsCount:number=0;
   ngOnInit(): void {
     this.getDropdownData();
+    this.getAllDBCollection()
   }
   arrayofselectedItem:any=[];
- 
+  databaseName:string='';
+  collectionName:string='';
   fetchDropdownData(item: any, searchType: string): void {
    debugger
     // this.arrayofselectedItem.push(item);
+    if(this.collectionName==""){
+      alert("please select section")
+      return
+    }
     this.loading=true;
     let params = new HttpParams();
     item.forEach((item:any) => {
       params = params.append('searchTerms', item);
+      
     });
 
-    // const batchSize = 10000; // Define the batch size
-    // const totalItems = item.length;
-    // let currentIndex = 0;
-    // let params:any
-    // while (currentIndex < totalItems) {
-    //   const batchItems = item.slice(currentIndex, currentIndex + batchSize);
-    // params = new HttpParams();
-      
-    //   batchItems.forEach((batchItem: any) => {
-    //     params = params.append('searchTerms', batchItem);
-    //   });
-    
-    //   // Send HTTP request with the current batch of parameters
-    //   // Example: httpClient.get(url, { params: params }).subscribe(...);
-    
-    //   currentIndex += batchSize;
-    // }
-    
-    
-    // const params = new HttpParams().append('searchTerms', item);
-    this.http.get(`https://localhost:7022/api/StringSearch/${searchType}`, { params })
+    params = params.set('databaseName', this.databaseName)
+    .set('collectionName', this.collectionName);
+    // this.http.get(`${this.service.publishUrl}StringSearch/${searchType}`, { params })
+    //https://localhost:7022/api/StringSearch/Suplier_Name?databaseName=2023&collectionName=part1&searchTerms=TECHGEN%20MACHINERIES%20LTD
+    this.http.get(`https://localhost:7022/api/StringSearch/${searchType}?databaseName=${this.databaseName}&collectionName=${this.collectionName}`, { params })
       .subscribe({
         next:async(res:any)=>{
           this.isrecordsCount=true;
@@ -128,7 +119,7 @@ switch (searchType) {
   golbaldropdownValues:any;
   getDropdownData(): void {
     this.loading=true;
-    this.http.get('https://localhost:7022/api/DropDown/uniquevalues').subscribe((res: any) => {
+    this.http.get(`${this.service.publishUrl}DropDown/uniquevalues`).subscribe((res: any) => {
       
       this.dropdownList = {
         Suplier_Name: res.supplier_Name,
@@ -217,7 +208,7 @@ debugger
       let suplier:any;
       let impoter :any;
       let itemDescription:any;
-      this.http.get(`https://localhost:7022/api/DropDown/aggregate?${searchType}=${searchStr}`).subscribe((res: any) => {
+      this.http.get(`${this.service.publishUrl}DropDown/aggregate?${searchType}=${searchStr}`).subscribe((res: any) => {
         if(res.supplierNames.length==0){
            suplier =this.golbaldropdownValues.Suplier_Name;
         }
@@ -277,7 +268,7 @@ debugger
 
 refresh(){
 
- this.http.get(`https://localhost:7022/api/StringSearch/clear`).subscribe({
+ this.http.get(`${this.service.publishUrl}StringSearch/clear`).subscribe({
   next:(res:any)=>{
     console.log(res);
     alert(res.message)
@@ -430,4 +421,55 @@ onImporterSelect(item: any): void {
 
   
   //end testing code
+
+  selectedYear:string=''
+selectYear(event: any) {
+
+  this.selectedYear = event.target.value;
+  this.databaseName=event.target.value;
+if(this.selectedYear!=""){
+  this.showSections()
+}
+ 
+}
+years: number[] = [];
+ArrayOfSections:any=[];
+allDbCollaectionValue:any=[];
+filterDbArrayValues:any=[];
+showSections(){
+  this.ArrayOfSections=[];
+  this.filterDbArrayValues.filter((ele:any)=>{
+    if(this.selectedYear==ele.dataBaseName){
+      this.ArrayOfSections.push(ele.collections);
+    }
+    console.log(this.ArrayOfSections);
+    
+  })
+}
+selectedSection:string=''
+selectSection(event:any){
+  this.selectedSection=event.target.value;
+  this.collectionName=event.target.value;
+}
+getAllDBCollection(){
+  this.service.getAllDBCollection().subscribe({
+    next:(res:any)=>{
+
+      console.log(res);
+   this.allDbCollaectionValue =  res;
+      if(this.allDbCollaectionValue.length>0){
+        this.allDbCollaectionValue.forEach((element:any) => {
+          let dbName=element.dataBaseName.toString();
+          if(dbName.startsWith("20")){
+        
+            this.filterDbArrayValues.push(element);
+            this.years.push(dbName);
+          }
+        });
+      }
+      console.log(this.filterDbArrayValues);
+   
+    }
+  })
+}
 }

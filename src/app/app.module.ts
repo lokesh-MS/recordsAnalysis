@@ -14,6 +14,7 @@ import { TruncatePipe } from './service/truncate.pipe';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select'
+
 @NgModule({
   declarations: [
     AppComponent,
