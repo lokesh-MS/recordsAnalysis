@@ -26,7 +26,7 @@ export class FilterMenuComponent {
   isrecordsCount:boolean=false;
   recordsCount:number=0;
   ngOnInit(): void {
-    this.getDropdownData();
+    // this.getDropdownData();
     this.getAllDBCollection()
   }
   arrayofselectedItem:any=[];
@@ -52,43 +52,52 @@ export class FilterMenuComponent {
     //https://localhost:7022/api/StringSearch/Suplier_Name?databaseName=2023&collectionName=part1&searchTerms=TECHGEN%20MACHINERIES%20LTD
     this.http.get(`https://localhost:7022/api/StringSearch/${searchType}?databaseName=${this.databaseName}&collectionName=${this.collectionName}`, { params })
       .subscribe({
+        
         next:async(res:any)=>{
-          this.isrecordsCount=true;
+         debugger
           this.recordsCount= await res.length;
-    
-          if (searchType === 'Suplier_Name') {
-            this.selectedItems = []; // Reset selected items if it's Supplier Name dropdown
-          }
-          // Update dropdown list based on search type
-          switch (searchType) {
-            case 'Suplier_Name':
-           
-              // this.dropdownList.Suplier_Name = Array.from(new Set(res.map((obj: any) => obj.supplier_Name.toString())));
-              this.dropdownList.Importer_Name = Array.from(new Set(res.map((obj: any) => obj.importer_Name)));
-              this.dropdownList.Item_Description = Array.from(new Set(res.map((obj: any) => obj.item_Description)));
-              let itemuniqueArray = [...new Set(this.dropdownList.Item_Description)];
-              this.dropdownList.Item_Description=itemuniqueArray;
-              // console.log(  this.dropdownList.Item_Description);
-              this.loading=false;
-              break;
-            case 'Importer_Name':
-           
-              // this.dropdownList.Importer_Name = Array.from(new Set(res.map((obj: any) => obj.importer_Name.toString())));
-              this.dropdownList.Suplier_Name = Array.from(new Set(res.map((obj: any) => obj.supplier_Name.toString())));
-              this.dropdownList.Item_Description = Array.from(new Set(res.map((obj: any) => obj.item_Description)));
-              let ItemuniqueArray = [...new Set(this.dropdownList.Item_Description)];
-              this.dropdownList.Item_Description=ItemuniqueArray;
-              this.loading=false;
-              break;
-            case 'Item_Description':
-              
-               this.dropdownList.Importer_Name = Array.from(new Set(res.map((obj: any) => obj.Importer_Name)));
-               this.dropdownList.Suplier_Name = Array.from(new Set(res.map((obj: any) => obj.Suplier_Name)));
-               this.loading=false;
-              break;
-            default:
-              break;
-          }
+
+    if(res.length!=0 && res.length!=undefined){
+      if (searchType === 'Suplier_Name') {
+        this.selectedItems = []; // Reset selected items if it's Supplier Name dropdown
+      }
+      // Update dropdown list based on search type
+      switch (searchType) {
+        case 'Suplier_Name':
+       
+          // this.dropdownList.Suplier_Name = Array.from(new Set(res.map((obj: any) => obj.supplier_Name.toString())));
+          this.dropdownList.Importer_Name = Array.from(new Set(res.map((obj: any) => obj.importer_Name)));
+          this.dropdownList.Item_Description = Array.from(new Set(res.map((obj: any) => obj.item_Description)));
+          let itemuniqueArray = [...new Set(this.dropdownList.Item_Description)];
+          this.dropdownList.Item_Description=itemuniqueArray;
+          // console.log(  this.dropdownList.Item_Description);
+          this.loading=false;
+          break;
+        case 'Importer_Name':
+       
+          // this.dropdownList.Importer_Name = Array.from(new Set(res.map((obj: any) => obj.importer_Name.toString())));
+          // this.dropdownList.Suplier_Name = Array.from(new Set(res.map((obj: any) => obj.supplier_Name.toString())));
+          this.dropdownList.Item_Description = Array.from(new Set(res.map((obj: any) => obj.item_Description)));
+          let ItemuniqueArray = [...new Set(this.dropdownList.Item_Description)];
+          this.dropdownList.Item_Description=ItemuniqueArray;
+          this.loading=false;
+          break;
+        case 'Item_Description':
+          
+           this.dropdownList.Importer_Name = Array.from(new Set(res.map((obj: any) => obj.Importer_Name)));
+           this.dropdownList.Suplier_Name = Array.from(new Set(res.map((obj: any) => obj.Suplier_Name)));
+           this.loading=false;
+          break;
+        default:
+          break;
+      }
+      this.isrecordsCount=true;
+    }
+       else{
+        // this.getDropdownData()
+        this.isrecordsCount=false;
+        this.loading=false;
+       }
         },
         error:(err)=>{
 console.log(`catch Error`,err);
@@ -119,7 +128,8 @@ switch (searchType) {
   golbaldropdownValues:any;
   getDropdownData(): void {
     this.loading=true;
-    this.http.get(`${this.service.publishUrl}DropDown/uniquevalues`).subscribe((res: any) => {
+    //https://localhost:7022/api/DropDown/uniquevalues?databaseName=2023&collectionName=code1
+    this.http.get(`https://localhost:7022/api/DropDown/uniquevalues?databaseName=${this.selectedYear}&collectionName=${this.selectedSection}`).subscribe((res: any) => {
       
       this.dropdownList = {
         Suplier_Name: res.supplier_Name,
@@ -137,12 +147,12 @@ switch (searchType) {
   onSuplierSelectAll(event: any): void {
     debugger
     this.selectedItems=event;
-    if(this.selectedItems.length<20){
+    if(this.selectedItems.length<100){
       this.fetchDropdownData(event,'Suplier_Name');
 
     }
     else{
-      alert("please select 20 records below!");
+      alert("please select 100 records below!");
      location.reload();
     }
 
@@ -153,13 +163,13 @@ switch (searchType) {
 debugger
     this.selectedItems=event;
 
-    if(this.selectedItems.length<20){
+    if(this.selectedItems.length<100){
       this.fetchDropdownData(event,'Importer_Name');
 
 
     }
     else{
-      alert("please select 20 records below!");
+      alert("please select 100 records below!");
      location.reload();
     }
   }
@@ -168,15 +178,15 @@ debugger
 debugger
      console.log(event);
      this.selectedItems=event;
-    if(this.selectedItems.length<90){
-      this.fetchDropdownData(event,'Item_Description');
+    // if(this.selectedItems.length<90){
+    //   this.fetchDropdownData(event,'Item_Description');
 
 
-    }
-    else{
-      alert("please select 90 records below!");
-     location.reload();
-    }
+    // }
+    // else{
+    //   alert("please select 90 records below!");
+    //  location.reload();
+    // }
     this.fetchDropdownData(event,'Item_Description');
     
   }
@@ -198,7 +208,7 @@ debugger
  //https://localhost:7022/api/DropDown/aggregate?supplierName
 
   onSearchChange(event: any, searchType: string): void {
-
+debugger
     console.log(this.golbaldropdownValues);
     
     const searchStr = event.target.value;
@@ -208,7 +218,7 @@ debugger
       let suplier:any;
       let impoter :any;
       let itemDescription:any;
-      this.http.get(`${this.service.publishUrl}DropDown/aggregate?${searchType}=${searchStr}`).subscribe((res: any) => {
+      this.http.get(`https://localhost:7022/api/DropDown/aggregate?${searchType}=${searchStr}&DbName=${this.selectedYear}`).subscribe((res: any) => {
         if(res.supplierNames.length==0){
            suplier =this.golbaldropdownValues.Suplier_Name;
         }
@@ -242,6 +252,7 @@ debugger
     }
     else{
       this.loading=false;
+      this.getDropdownData()
     }
   }
 
@@ -268,7 +279,7 @@ debugger
 
 refresh(){
 
- this.http.get(`${this.service.publishUrl}StringSearch/clear`).subscribe({
+ this.http.get(`https://localhost:7022/api/StringSearch/clear`).subscribe({
   next:(res:any)=>{
     console.log(res);
     alert(res.message)
@@ -437,12 +448,24 @@ ArrayOfSections:any=[];
 allDbCollaectionValue:any=[];
 filterDbArrayValues:any=[];
 showSections(){
+  debugger
   this.ArrayOfSections=[];
   this.filterDbArrayValues.filter((ele:any)=>{
     if(this.selectedYear==ele.dataBaseName){
-      this.ArrayOfSections.push(ele.collections);
+      let collection =ele.collections;
+     
+      
+      collection.forEach((data:any)=>{
+      
+        
+        if(data.startsWith("code")){
+          this.ArrayOfSections.push(data);
+          console.log(data);
+        }
+      })
+     
     }
-    console.log(this.ArrayOfSections);
+    // console.log(this.ArrayOfSections);
     
   })
 }
@@ -450,6 +473,7 @@ selectedSection:string=''
 selectSection(event:any){
   this.selectedSection=event.target.value;
   this.collectionName=event.target.value;
+  this.getDropdownData();
 }
 getAllDBCollection(){
   this.service.getAllDBCollection().subscribe({

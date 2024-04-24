@@ -1,8 +1,9 @@
-
 {
     "/api": {
-        "target": "http://192.168.0.201:3000",
-        "secure": false,
-        "changeOrigin": true
+      "target": "http://192.168.0.201:7001",
+      "secure": false,
+      "changeOrigin": true
+      
     }
-}
+  }
+  

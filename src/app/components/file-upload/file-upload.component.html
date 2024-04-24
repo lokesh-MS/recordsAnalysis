@@ -1,5 +1,12 @@
-<!-- Include necessary scripts at the end of body if required -->
 
+<div class="container mt-5">
+  <div>
+    <div>
+      <button class="btn btn-danger" (click)="goBackToFilter()">Go back</button>
+    </div>
+  </div>
+
+</div>
 <div class="container">
   <div class="loading-container" *ngIf="uploading || fetching || loading || ExportingExcel">
     <div class="upload-animation text-center">
@@ -15,6 +22,7 @@
     <div class="col-md-4">
       <div class="text-center">
         <select name="" id="" (change)="selectYear($event)" class="form-control">
+          <option value="">--Select Year--</option>
           <option *ngFor="let year of years" [value]="year">{{ year }}</option>
         </select>
       </div>
@@ -22,8 +30,10 @@
     <div class="col-md-4">
       <div class="text-center">
         <select name="" id="" (change)="selectSection($event)" class="form-control">
+          <option value="">--Select code--</option>
           <ng-container *ngFor="let innerArray of ArrayOfSections">
             <ng-container *ngFor="let section of innerArray">
+              
               <option [value]="section">{{ section }}</option>
             </ng-container>
           </ng-container>
@@ -35,7 +45,7 @@
         <label for="file-upload" class="custom-file-upload">
           <i class="fa fa-cloud-upload"></i> Choose File
           <p id="file-name" *ngIf="fileNameinitalStae">{{ fileName }}</p>
-        </label>
+        </label>&nbsp; &nbsp;
         <button class="btn btn-success" [style.background-color]="buttonbgColor" [style.color]="buttonColor" (click)="onUpload()">Upload</button>
         <input id="file-upload" type="file" style="display: none" (change)="onFileSelected($event)" />
         <div *ngIf="uploadSuccess" style="position: absolute; top: 42px; left: 46%;">

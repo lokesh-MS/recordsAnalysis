@@ -10,34 +10,33 @@ export class DbserviceService {
   constructor(private http:HttpClient) { }
 
   
-  uploadFile(file: File,dataBaseName:any,section:any) {
-    debugger
-// Set the maximum allowed file size in bytes
-const maxFileSize = 300 * 1024 * 1024; // 200 MB
+  uploadFile(file: File, dataBaseName: any, section: any) {
+    // Set the maximum allowed file size in bytes
+    const maxFileSize = 1024 * 1024 * 300; // 300 MB
 
-// Create HttpHeaders with the maximum file size limit
-const headers = new HttpHeaders({
-  'Content-Type': 'multipart/form-data',
-  'Max-Upload-Size': maxFileSize.toString() // Add this custom header
-});
+    // Create HttpHeaders with the maximum file size limit
+    const headers = new HttpHeaders({
+        'Max-Upload-Size': maxFileSize.toString() // Add this custom header
+    });
 
+    // Construct the FormData object and append the file
+    const formData = new FormData();
+    formData.append('file', file);
 
-//     const formData = new FormData();
-//     formData.append('file', file);
-// //  return this.http.post<any>(`${this.publishUrl}ExcelData/upload`, formData, { headers: headers });
-//  return this.http.post<any>(`https://localhost:7022/api/ExcelData/upload?DataBaseName=${dataBaseName}&collectionName=${section}`, formData, { headers: headers });
-const formData = new FormData();
-formData.append('file', file);
+    // Construct the API URL with query parameters
+    const url = `https://localhost:7022/api/ExcelData/upload?DataBaseName=${dataBaseName}&collectionName=${section}`;
 
-// Construct the API URL with query parameters
-const url = `https://localhost:7022/api/ExcelData/upload?DataBaseName=${dataBaseName}&collectionName=${section}`;
+    // Define options object with headers
+    const options = {
+        headers: headers
+    };
 
-// Make the HTTP POST request
-return this.http.post<any>(url, formData);
-  }
+    // Make the HTTP POST request with options
+    return this.http.post<any>(url, formData, options);
+}
   exportToExcel(): Observable<Blob> {
     // return this.http.get(`https://localhost:7022/api/ExcelData/export`, { responseType: 'blob' });
-    return this.http.get(`${this.publishUrl}ExcelData/export`, { responseType: 'blob' });
+    return this.http.get(`https://localhost:7022/api/ExcelData/export`, { responseType: 'blob' });
   }
   
 
@@ -59,4 +58,8 @@ return this.http.post<any>(url, formData);
   getAllDBCollection(){
 return this.http.get(`https://localhost:7022/api/DBAndCollections`);
   }
+
+
+
+  
 }

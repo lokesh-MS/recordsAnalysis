@@ -96,3 +96,9 @@ label{
   font-family: auto;
   text-shadow: 0 0 black;
 }
+select{
+  height: 39px;
+    border-radius: 3px;
+    border: 1px solid gray;
+    background-color: transparent;
+}

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { DbserviceService } from 'src/app/service/dbservice.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { DbserviceService } from 'src/app/service/dbservice.service';
   styleUrls: ['./file-upload.component.css']
 })
 export class FileUploadComponent implements OnInit{
-constructor(private service:DbserviceService){
+constructor(private service:DbserviceService,private router:Router){
 
 }
 recordsCount: any;
@@ -67,31 +68,35 @@ onFileSelected(event: any) {
 }
 onUpload() {
   this.uploading = true;
+
+  if(this.selectedSection ==''){
+    this.uploading = false;
+    this.uploadingSuccess = false;
+alert('Please select code!');
+return
+  }
   if (!this.selectedFile) {
     this.uploading = false;
     this.uploadingSuccess = false;
     alert('Please select a file!');
     return;
   }
-  if(this.selectedSection ==''){
-    this.uploading = false;
-    this.uploadingSuccess = false;
-alert('Please select Section');
-return
-  }
+ 
   this.service.uploadFile(this.selectedFile,this.selectedYear,this.selectedSection).subscribe({
     next: (res:any) => {
       this.uploadSuccess = true;
       this.uploading = false;
       this.uploadingSuccess = true;
       this.fileNameinitalStae = false;
-      this.uploadMessage = res.message;
-      
-    
       this.fileName = '';
       this.buttonbgColor = '#fd6436';
       this.buttonColor = 'black';
-    
+      if(res.message!=undefined && res.message!=""){
+        this.uploadMessage = res.message;
+      }
+    else{
+      this.uploadMessage ="File uploaded successfully!"
+    }
     },
     error: (err:any) => {
       console.log(err.message);
@@ -175,5 +180,8 @@ showSections(){
 selectedSection:string=''
 selectSection(event:any){
   this.selectedSection=event.target.value;
+}
+goBackToFilter(){
+  this.router.navigateByUrl("")
 }
 }

@@ -9,23 +9,26 @@
     </div>
     <div style="position: relative;">
         <p style="position: absolute;    right: 3%;"> {{ currentTime }}</p>
-    
-    
+
+
     </div>
 
-    
 
-  
+
+
 </div>
 
 <div style="width: 60%;position: relative;">
-    <Button class="btn btn-primary" (click)="openFileUplaod()" style="
-   ">File Upload</Button>
+    <div style="display: flex;
+    margin-left: 16%;">
+        <Button class="btn btn-primary" (click)="openFileUplaod()">File Upload</Button>
+    </div>
+
 
 </div>
-<div >
-   
-<app-filter-menu></app-filter-menu>
+<div>
+
+    <app-filter-menu></app-filter-menu>
 </div>
 
 
