@@ -24,7 +24,7 @@ export class DbserviceService {
     formData.append('file', file);
 
     // Construct the API URL with query parameters
-    const url = `https://localhost:7022/api/ExcelData/upload?DataBaseName=${dataBaseName}&collectionName=${section}`;
+    const url = `${this.publishUrl}ExcelData/upload?DataBaseName=${dataBaseName}&collectionName=${section}`;
 
     // Define options object with headers
     const options = {
@@ -36,7 +36,7 @@ export class DbserviceService {
 }
   exportToExcel(): Observable<Blob> {
     // return this.http.get(`https://localhost:7022/api/ExcelData/export`, { responseType: 'blob' });
-    return this.http.get(`https://localhost:7022/api/ExcelData/export`, { responseType: 'blob' });
+    return this.http.get(`${this.publishUrl}ExcelData/export`, { responseType: 'blob' });
   }
   
 
@@ -49,14 +49,14 @@ export class DbserviceService {
     //   headers: headers,
     //   responseType: 'blob'
     // });
-    return this.http.get(`https://localhost:7022/api/StringSearch/export`, {
+    return this.http.get(`${this.publishUrl}StringSearch/export`, {
       headers: headers,
       responseType: 'blob'
     });
   }
 
   getAllDBCollection(){
-return this.http.get(`https://localhost:7022/api/DBAndCollections`);
+return this.http.get(`${this.publishUrl}DBAndCollections`);
   }
 
 

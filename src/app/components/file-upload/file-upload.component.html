@@ -31,13 +31,18 @@
       <div class="text-center">
         <select name="" id="" (change)="selectSection($event)" class="form-control">
           <option value="">--Select code--</option>
-          <ng-container *ngFor="let innerArray of ArrayOfSections">
-            <ng-container *ngFor="let section of innerArray">
-              
-              <option [value]="section">{{ section }}</option>
+      
+            <ng-container *ngFor="let innerArray of ArrayOfSections">
+              <option [value]="innerArray">{{innerArray}}</option>
+      
+           
             </ng-container>
-          </ng-container>
+         
         </select>
+
+
+
+
       </div>
     </div>
     <div class="col-md-4">

@@ -33,27 +33,7 @@ ngOnInit(): void {
 }
 allDbCollaectionValue:any=[];
 filterDbArrayValues:any=[];
-getAllDBCollection(){
-  this.service.getAllDBCollection().subscribe({
-    next:(res:any)=>{
 
-      console.log(res);
-   this.allDbCollaectionValue =  res;
-      if(this.allDbCollaectionValue.length>0){
-        this.allDbCollaectionValue.forEach((element:any) => {
-          let dbName=element.dataBaseName.toString();
-          if(dbName.startsWith("20")){
-        
-            this.filterDbArrayValues.push(element);
-            this.years.push(dbName);
-          }
-        });
-      }
-      console.log(this.filterDbArrayValues);
-   
-    }
-  })
-}
 onFileSelected(event: any) {
   this.uploadSuccess = false;
   this.selectedFile = event.target.files[0];
@@ -152,10 +132,7 @@ Export() {
 
 years: number[] = [];
 initializeYears() {
-  // const currentYear = new Date().getFullYear();
-  // for (let year = currentYear - 10; year <= currentYear + 10; year++) {
-  //   this.years.push(year);
-  // }
+
 }
 selectedYear:string=''
 selectYear(event: any) {
@@ -168,18 +145,49 @@ if(this.selectedYear!=""){
 }
 ArrayOfSections:any=[];
 showSections(){
+  debugger
   this.ArrayOfSections=[];
   this.filterDbArrayValues.filter((ele:any)=>{
     if(this.selectedYear==ele.dataBaseName){
-      this.ArrayOfSections.push(ele.collections);
+      let collection =ele.collections;
+     
+      
+      collection.forEach((data:any) => {
+        if (data.startsWith("code")) {
+          this.ArrayOfSections.push(data);
+        }
+      });
+      this.ArrayOfSections.sort();
+     
     }
-    console.log(this.ArrayOfSections);
+ 
     
   })
 }
+collectionName:any;
 selectedSection:string=''
 selectSection(event:any){
   this.selectedSection=event.target.value;
+  this.collectionName=event.target.value;
+}
+getAllDBCollection(){
+  this.service.getAllDBCollection().subscribe({
+    next:(res:any)=>{
+   this.allDbCollaectionValue =  res;
+      if(this.allDbCollaectionValue.length>0){
+        this.allDbCollaectionValue.forEach((element:any) => {
+          let dbName=element.dataBaseName.toString();
+          if(dbName.startsWith("20")){
+        
+            this.filterDbArrayValues.push(element);
+            this.years.push(dbName);
+          }
+        });
+      }
+      console.log(this.filterDbArrayValues);
+   
+    }
+  })
 }
 goBackToFilter(){
   this.router.navigateByUrl("")

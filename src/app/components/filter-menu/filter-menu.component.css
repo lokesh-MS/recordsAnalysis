@@ -1,104 +1,61 @@
-.dropdowns-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  
-  .container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  
-  .dropdown-column {
-    flex: 1 1 30%;
-    margin-bottom: 20px;
-  }
-  
-  .ng-dropdown-panel {
-    max-height: 200px !important;
-  }
-  
-  .btn {
-    border-radius: 10px;
-  }
-  
-  @media screen and (max-width: 768px) {
-    .dropdown-column {
-      flex: 1 1 100%;
-    }
-  }
-
-  .multiselect-dropdown .dropdown-btn .selected-item-container .selected-item {
-    border: 1px solid #337ab7;
-    margin-right: 4px;
-    background: #337ab7;
-    padding: 0 5px;
-    color: #fff;
-    border-radius: 2px;
-    float: left;
-    max-width: 100% !important; /* Changed from 100px to 100% and added !important */
-}
-
-  /* Set 100% width for the selected records count container */
-.container.text-center {
-  width: 100%;
-}
-
-/* Set 100% width for the dropdowns container */
-.dropdowns-container {
-  width: 100%;
-}
-
-/* Set 100% width for each dropdown column */
-.container .dropdown-column {
-  width: calc(33.33% - 10px); /* Adjust the width as needed */
-  margin-right: 10px; /* Add spacing between dropdowns */
-}
-
-/* Set 100% width for the export button container */
-.row.justify-content-center {
-  width: 100%;
-}
-
-/* Set width for the export button */
-.btn-primary {
-  width: 100%;
-}
-.btn-danger{
-  color: #fffefe;
-  padding: 5px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  right: 66px;
-  position: absolute;
-  border-radius: 5px;
-  bottom: 63px;
-  
-}
-
 .loading-container {
-  position: fixed;
-  top: 15%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  /* z-index: 9999 !important; 
-  background-color: rgba(255, 255, 255, 0.8); 
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);  */
-}
-label{
-  font-size: 19px;
-  font-weight: 400;
   text-align: center;
-  color: #4d3a4e;
-  font-family: auto;
-  text-shadow: 0 0 black;
+  margin-top: 20px;
 }
-select{
-  height: 39px;
-    border-radius: 3px;
-    border: 1px solid gray;
-    background-color: transparent;
+
+.upload-animation {
+  margin-top: 10px;
+}
+
+.upload-text {
+  margin-top: 10px;
+}
+
+.container {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.dropdown {
+  flex: 1;
+  min-width: 200px;
+}
+
+.dropdowns-container {
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 8px;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+}
+
+.btn-success {
+  background-color: #28a745;
+}
+
+.btn-primary {
+  background-color: #007bff;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.dropdown-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdowns-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.text-center {
+  text-align: center;
 }

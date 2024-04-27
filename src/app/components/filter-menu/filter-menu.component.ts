@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { DbserviceService } from 'src/app/service/dbservice.service';
@@ -8,7 +8,7 @@ import { DbserviceService } from 'src/app/service/dbservice.service';
   templateUrl: './filter-menu.component.html',
   styleUrls: ['./filter-menu.component.css']
 })
-export class FilterMenuComponent {
+export class FilterMenuComponent implements OnInit{
   dropdownList:any= { Suplier_Name: [], Importer_Name: [] ,Item_Description:[]};
   selectedItems: any = [];
   uploading: boolean = false;
@@ -27,19 +27,38 @@ export class FilterMenuComponent {
   recordsCount:number=0;
   ngOnInit(): void {
     // this.getDropdownData();
-    this.getAllDBCollection()
+     this.getAllDBCollection()
+  }
+  ngDoCheck(){
+//  debugger
+    // if(this.recordsCount!=this.camparetotalCount){
+    //   debugger
+    //   console.log('doCheck recordsCount',this.recordsCount);
+    //   console.log('doCheck camparetotalCount',this.camparetotalCount);
+    //   this.loading=true;
+
+    // }
+    // if(this.recordsCount==this.camparetotalCount){
+    //   this.loading=false;
+    // }
+    // if(this.selectSuplierCountForLoadingAnimation==this.suplierCountLoding){
+    //   this.loading=false;
+    // }
   }
   arrayofselectedItem:any=[];
   databaseName:string='';
   collectionName:string='';
+  camparetotalCount:number=0;
+  suplierCountLoding:number=0;
   fetchDropdownData(item: any, searchType: string): void {
-   debugger
+debugger
+
     // this.arrayofselectedItem.push(item);
     if(this.collectionName==""){
       alert("please select section")
       return
     }
-    this.loading=true;
+   
     let params = new HttpParams();
     item.forEach((item:any) => {
       params = params.append('searchTerms', item);
@@ -48,14 +67,20 @@ export class FilterMenuComponent {
 
     params = params.set('databaseName', this.databaseName)
     .set('collectionName', this.collectionName);
+    this.loading=true;
     // this.http.get(`${this.service.publishUrl}StringSearch/${searchType}`, { params })
     //https://localhost:7022/api/StringSearch/Suplier_Name?databaseName=2023&collectionName=part1&searchTerms=TECHGEN%20MACHINERIES%20LTD
-    this.http.get(`https://localhost:7022/api/StringSearch/${searchType}?databaseName=${this.databaseName}&collectionName=${this.collectionName}`, { params })
+    this.http.get(`${this.service.publishUrl}StringSearch/${searchType}?databaseName=${this.databaseName}&collectionName=${this.collectionName}`, { params })
       .subscribe({
         
         next:async(res:any)=>{
-         debugger
+          this.suplierCountLoding++;
+          this.loading=true;
           this.recordsCount= await res.length;
+          this.recordsCount=this.recordsCount;
+          this.camparetotalCount=Number(this.recordsCount);
+console.log(this.recordsCount);
+console.log(this.camparetotalCount);
 
     if(res.length!=0 && res.length!=undefined){
       if (searchType === 'Suplier_Name') {
@@ -64,29 +89,30 @@ export class FilterMenuComponent {
       // Update dropdown list based on search type
       switch (searchType) {
         case 'Suplier_Name':
-       
+          this.loading=true;
           // this.dropdownList.Suplier_Name = Array.from(new Set(res.map((obj: any) => obj.supplier_Name.toString())));
           this.dropdownList.Importer_Name = Array.from(new Set(res.map((obj: any) => obj.importer_Name)));
           this.dropdownList.Item_Description = Array.from(new Set(res.map((obj: any) => obj.item_Description)));
           let itemuniqueArray = [...new Set(this.dropdownList.Item_Description)];
+          let importerqueArray = [...new Set(this.dropdownList.Importer_Name)];
           this.dropdownList.Item_Description=itemuniqueArray;
-          // console.log(  this.dropdownList.Item_Description);
+          this.dropdownList.Importer_Name=importerqueArray;
           this.loading=false;
           break;
         case 'Importer_Name':
-       
+          this.loading=true;
           // this.dropdownList.Importer_Name = Array.from(new Set(res.map((obj: any) => obj.importer_Name.toString())));
           // this.dropdownList.Suplier_Name = Array.from(new Set(res.map((obj: any) => obj.supplier_Name.toString())));
           this.dropdownList.Item_Description = Array.from(new Set(res.map((obj: any) => obj.item_Description)));
           let ItemuniqueArray = [...new Set(this.dropdownList.Item_Description)];
           this.dropdownList.Item_Description=ItemuniqueArray;
-          this.loading=false;
+           this.loading=false;
           break;
         case 'Item_Description':
-          
+            this.loading=true;
            this.dropdownList.Importer_Name = Array.from(new Set(res.map((obj: any) => obj.Importer_Name)));
            this.dropdownList.Suplier_Name = Array.from(new Set(res.map((obj: any) => obj.Suplier_Name)));
-           this.loading=false;
+            this.loading=false;
           break;
         default:
           break;
@@ -129,7 +155,7 @@ switch (searchType) {
   getDropdownData(): void {
     this.loading=true;
     //https://localhost:7022/api/DropDown/uniquevalues?databaseName=2023&collectionName=code1
-    this.http.get(`https://localhost:7022/api/DropDown/uniquevalues?databaseName=${this.selectedYear}&collectionName=${this.selectedSection}`).subscribe((res: any) => {
+    this.http.get(`${this.service.publishUrl}DropDown/uniquevalues?databaseName=${this.selectedYear}&collectionName=${this.selectedSection}`).subscribe((res: any) => {
       
       this.dropdownList = {
         Suplier_Name: res.supplier_Name,
@@ -137,7 +163,7 @@ switch (searchType) {
         Item_Description:res.item_Description,
       };
       this.loading=false;
-      console.log(`Item_Description`,this.dropdownList);
+  
       this.golbaldropdownValues=this.dropdownList 
     });
    
@@ -145,7 +171,7 @@ switch (searchType) {
   }
 
   onSuplierSelectAll(event: any): void {
-    debugger
+
     this.selectedItems=event;
     if(this.selectedItems.length<100){
       this.fetchDropdownData(event,'Suplier_Name');
@@ -160,23 +186,22 @@ switch (searchType) {
   }
  
   onImporterSelectAll(event: any): void {
-debugger
-    this.selectedItems=event;
 
-    if(this.selectedItems.length<100){
-      this.fetchDropdownData(event,'Importer_Name');
+    // this.selectedItems=event;
+
+    // if(this.selectedItems.length<100){
+    //   this.fetchDropdownData(event,'Importer_Name');
 
 
-    }
-    else{
-      alert("please select 100 records below!");
-     location.reload();
-    }
+    // }
+    // else{
+    //   alert("please select 100 records below!");
+    //  location.reload();
+    // }
   }
 
   onItemSelectAll(event: any): void {
-debugger
-     console.log(event);
+
      this.selectedItems=event;
     // if(this.selectedItems.length<90){
     //   this.fetchDropdownData(event,'Item_Description');
@@ -187,7 +212,7 @@ debugger
     //   alert("please select 90 records below!");
     //  location.reload();
     // }
-    this.fetchDropdownData(event,'Item_Description');
+    //this.fetchDropdownData(event,'Item_Description');
     
   }
   onSuplierDeslectAll(event:any){
@@ -208,17 +233,14 @@ debugger
  //https://localhost:7022/api/DropDown/aggregate?supplierName
 
   onSearchChange(event: any, searchType: string): void {
-debugger
-    console.log(this.golbaldropdownValues);
-    
+    // debugger
     const searchStr = event.target.value;
     if (searchStr.length >= 3) {
-      debugger
       this.loading=true;
       let suplier:any;
       let impoter :any;
       let itemDescription:any;
-      this.http.get(`https://localhost:7022/api/DropDown/aggregate?${searchType}=${searchStr}&DbName=${this.selectedYear}`).subscribe((res: any) => {
+      this.http.get(`${this.service.publishUrl}DropDown/aggregate?${searchType}=${searchStr}&DbName=${this.selectedYear}`).subscribe((res: any) => {
         if(res.supplierNames.length==0){
            suplier =this.golbaldropdownValues.Suplier_Name;
         }
@@ -257,7 +279,7 @@ debugger
   }
 
   exportToExcel(): void {
-    debugger
+
     this.service.exportToalldropdowndata().subscribe(
       (response: any) => {
         const url = window.URL.createObjectURL(response);
@@ -279,9 +301,8 @@ debugger
 
 refresh(){
 
- this.http.get(`https://localhost:7022/api/StringSearch/clear`).subscribe({
+ this.http.get(`${this.service.publishUrl}StringSearch/clear`).subscribe({
   next:(res:any)=>{
-    console.log(res);
     alert(res.message)
     location.reload();
   },
@@ -292,10 +313,10 @@ refresh(){
  })
 }
 
-
+selectSuplierCountForLoadingAnimation:number=0;
 //testing selecting**********
 onSuplierSelect(item: any): void {
-debugger
+  this.selectSuplierCountForLoadingAnimation++;
   if (item !="") {
     this.selectedSuppliers.push(item);
   } else {
@@ -304,84 +325,92 @@ debugger
       this.selectedSuppliers.splice(index, 1); // Remove deselected item
     }
   }
-  this.fetchDropdownData(this.selectedSuppliers,'Suplier_Name');
+ 
 
 }
+GetStepOneFilterValue(){
+  this.isrecordsCount=false;
+  this.fetchDropdownData(this.selectedSuppliers,'Suplier_Name');
+}
+
+
+
 selectedSuppliers: any[] = [];
 selectedImporters: any[] = [];
 onSuplierDeselect(item: any): void {
- 
-  // const index = this.selectedSuppliers.findIndex(x => x.id === item.id);
-  // if (index !== -1) {
-  //   this.selectedSuppliers.splice(index, 1); 
-
-  // }
-  //  this.fetchDropdownData(this.selectedSuppliers,'Suplier_Name');
- 
-  debugger
-
-  // Check if the item is a string
-  if (typeof item === 'string') {
-    // Filter out items that contain the specified string in their Suplier_Name
-    this.selectedSuppliers = this.selectedSuppliers.filter(x => !x.includes(item));
-  } else {
-    // Otherwise, remove the specific item from the array
-    const index = this.selectedSuppliers.findIndex(x => x.id === item.id);
+ debugger
+  const index = this.selectedSuppliers.findIndex(selected => selected === item);
     if (index !== -1) {
-      this.selectedSuppliers.splice(index, 1);
+      this.selectedSuppliers.splice(index, 1); // Remove exact string on deselect
     }
-  }
-
   // Fetch dropdown data after removing the item(s)
-  this.fetchDropdownData(this.selectedSuppliers, 'Suplier_Name');
+ // this.fetchDropdownData(this.selectedSuppliers, 'Suplier_Name');
 }
 selectedItem_Description: any[] = [];
 onItemSelect(item: any): void {
+  // if (item !="") {
+  //   this.selectedItem_Description.push(item);
+  // } else {
+  //   const index = this.selectedItem_Description.findIndex(x => x.id === item.id);
+  //   if (index !== -1) {
+  //     this.selectedItem_Description.splice(index, 1); // Remove deselected item
+  //   }
+  // }
+  
   debugger
+  // this.selectSuplierCountForLoadingAnimation++;
   if (item !="") {
     this.selectedItem_Description.push(item);
   } else {
-    const index = this.selectedItem_Description.findIndex(x => x.id === item.id);
+    const index = this.selectedItem_Description.findIndex(x => x === item);
     if (index !== -1) {
       this.selectedItem_Description.splice(index, 1); // Remove deselected item
     }
   }
+
+
+  // this.selectedItem_Description.push(item);
+  // const index = this.selectedItem_Description.findIndex(selected => selected === item);
+  // if (index !== -1) {
+  //   this.selectedItem_Description.splice(index, 1); // Remove exact string on deselect
+  // }
   this.fetchDropdownData(this.selectedItem_Description,'Item_Description');
 
 }
 
 
 onItemDeselect(item: any): void {
-  // debugger
-  // const index = this.selectedItems.findIndex((x:any) => x.id === item.id);
-  // if (index !== -1) {
-  //   this.selectedItems.splice(index, 1); // Remove deselected item
+
+
+  // // Check if the item is a string
+  // if (typeof item === 'string') {
+  //   // Filter out items that contain the specified string in their Suplier_Name
+  //   this.selectedItem_Description = this.selectedItem_Description.filter((x:any) => !x.includes(item));
+  // } else {
+  //   // Otherwise, remove the specific item from the array
+  //   const index = this.selectedItem_Description.findIndex((x:any) => x.id === item.id);
+  //   if (index !== -1) {
+  //     this.selectedItem_Description.splice(index, 1);
+  //   }
   // }
-  // this.fetchDropdownData(this.selectedItems,'Item_Description');
 
 
-  debugger
-
-  // Check if the item is a string
-  if (typeof item === 'string') {
-    // Filter out items that contain the specified string in their Suplier_Name
-    this.selectedItem_Description = this.selectedItem_Description.filter((x:any) => !x.includes(item));
-  } else {
-    // Otherwise, remove the specific item from the array
-    const index = this.selectedItem_Description.findIndex((x:any) => x.id === item.id);
-    if (index !== -1) {
-      this.selectedItem_Description.splice(index, 1);
-    }
+  const index = this.selectedItem_Description.findIndex(selected => selected === item);
+  if (index !== -1) {
+    this.selectedItem_Description.splice(index, 1); // Remove exact string on deselect
   }
-
   // Fetch dropdown data after removing the item(s)
   this.fetchDropdownData(this.selectedItem_Description, 'Item_Description');
 }
 
 onImporterSelect(item: any): void {
-  debugger
+
   if (item !="") {
-    this.selectedImporters.push(item);
+    let ImporterStr=item.toString().trim();
+
+    this.selectedImporters.push(ImporterStr);
+    this.selectedImporters = [...new Set(this.selectedImporters)];
+
   } else {
     const index = this.selectedImporters.findIndex(x => x.id === item.id);
     if (index !== -1) {
@@ -391,40 +420,15 @@ onImporterSelect(item: any): void {
   this.fetchDropdownData(this.selectedImporters,'Importer_Name');
 }
 
-
-
-//end select*********
-
-
-  //testing deslect options
-
-  
  
   onImporterDeselect(item: any): void {
-    // debugger
-    // const index = this.selectedImporters.findIndex(x => x.id === item.id);
-    // if (index !== -1) {
-    //   this.selectedImporters.splice(index, 1); // Remove deselected item
-    // }
-    // this.fetchDropdownData(this.selectedImporters,'Importer_Name');
-
-
-
-
-    debugger
-
-    // Check if the item is a string
-    if (typeof item === 'string') {
-      // Filter out items that contain the specified string in their Suplier_Name
-      this.selectedImporters = this.selectedImporters.filter(x => !x.includes(item));
-    } else {
-      // Otherwise, remove the specific item from the array
-      const index = this.selectedImporters.findIndex(x => x.id === item.id);
-      if (index !== -1) {
-        this.selectedImporters.splice(index, 1);
-      }
-    }
+   
   
+
+    const index = this.selectedImporters.findIndex(selected => selected === item);
+    if (index !== -1) {
+      this.selectedImporters.splice(index, 1); // Remove exact string on deselect
+    }
     // Fetch dropdown data after removing the item(s)
     this.fetchDropdownData(this.selectedImporters, 'Importer_Name');
   }
@@ -448,7 +452,7 @@ ArrayOfSections:any=[];
 allDbCollaectionValue:any=[];
 filterDbArrayValues:any=[];
 showSections(){
-  debugger
+
   this.ArrayOfSections=[];
   this.filterDbArrayValues.filter((ele:any)=>{
     if(this.selectedYear==ele.dataBaseName){
@@ -460,12 +464,11 @@ showSections(){
         
         if(data.startsWith("code")){
           this.ArrayOfSections.push(data);
-          console.log(data);
+        
         }
       })
-     
+      this.ArrayOfSections.sort();
     }
-    // console.log(this.ArrayOfSections);
     
   })
 }
@@ -478,8 +481,6 @@ selectSection(event:any){
 getAllDBCollection(){
   this.service.getAllDBCollection().subscribe({
     next:(res:any)=>{
-
-      console.log(res);
    this.allDbCollaectionValue =  res;
       if(this.allDbCollaectionValue.length>0){
         this.allDbCollaectionValue.forEach((element:any) => {
@@ -491,7 +492,7 @@ getAllDBCollection(){
           }
         });
       }
-      console.log(this.filterDbArrayValues);
+  
    
     }
   })
